@@ -10,15 +10,13 @@ use pocketmine\network\mcpe\protocol\LevelEventPacket;
 use pocketmine\network\mcpe\protocol\types\LevelEvent;
 use pocketmine\utils\Config;
 use pocketmine\Player;
-use pocketmine\entity\animation\TotemUseAnimation; // Import the TotemUseAnimation class
+use pocketmine\entity\animation\TotemUseAnimation;
 
 class EventListener implements Listener {
 
-    private $plugin;
     private $config;
 
-    public function __construct(Plugin $plugin, Config $config) {
-        $this->plugin = $plugin;
+    public function __construct(Config $config) {
         $this->config = $config;
     }
 
