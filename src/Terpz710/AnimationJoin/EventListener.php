@@ -4,6 +4,7 @@ namespace Terpz710\AnimationJoin;
 
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
+use Terpz710\AnimationJoin\EventListener;
 
 class Main extends PluginBase {
 
