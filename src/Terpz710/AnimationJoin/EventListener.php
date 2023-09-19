@@ -21,58 +21,59 @@ class EventListener implements Listener {
     }
 
     public function onPlayerJoin(PlayerJoinEvent $event): void {
-        $player = $event->getPlayer();
+    $player = $event->getPlayer();
 
-        $enableMOTD = $this->config->getNested("Enable.MOTD", true);
-        $enableMessages = $this->config->getNested("Enable.Messages", true);
-        $enableTitle = $this->config->getNested("Enable.Title", true);
-        $enableJoinAnimation = $this->config->getNested("Enable.Join-Animation", true);
+    $enableMOTD = $this->config->getNested("Enable.MOTD", true);
+    $enableMessages = $this->config->getNested("Enable.Messages", true);
+    $enableTitle = $this->config->getNested("Enable.Title", true);
+    $enableJoinAnimation = $this->config->getNested("Enable.Join-Animation", true);
 
-        if ($enableMOTD && $this->config->get("MOTD") !== null) {
-            $motd = $this->config->get("MOTD");
-            $player->sendMessage($motd);
-        }
+    if ($enableMOTD && $this->config->exists("MOTD")) {
+        $motd = $this->config->get("MOTD");
+        $player->sendMessage($motd);
+    }
 
-        $customJoinConfig = $this->config->get("Messages.Join-Message");
-        $customLeaveConfig = $this->config->get("Messages.Leave-Message");
+    $customJoinConfig = $this->config->get("Messages.Join-Message", "");
+    $customLeaveConfig = $this->config->get("Messages.Leave-Message", "");
 
-        if ($enableMessages) {
-            $joinMessage = str_replace("%player%", $player->getName(), $customJoinConfig);
-            $player->sendMessage($joinMessage);
-        }
+    if ($enableMessages && $customJoinConfig !== "") {
+        $joinMessage = str_replace("%player%", $player->getName(), $customJoinConfig);
+        $player->sendMessage($joinMessage);
+    }
 
-        $titleConfig = $this->config->get("Title");
-        if ($enableTitle) {
-            $player->sendTitle(
-                $titleConfig["Title-Text"],
-                $titleConfig["Subtitle-Text"],
-                $titleConfig["Fade-In"],
-                $titleConfig["Stay"],
-                $titleConfig["Fade-Out"]
+    $titleConfig = $this->config->get("Title", []);
+    if ($enableTitle && isset($titleConfig["Title-Text"])) {
+        $player->sendTitle(
+            $titleConfig["Title-Text"],
+            $titleConfig["Subtitle-Text"] ?? "",
+            $titleConfig["Fade-In"] ?? 0,
+            $titleConfig["Stay"] ?? 20,
+            $titleConfig["Fade-Out"] ?? 0
+        );
+    }
+
+    $joinAnimationConfig = $this->config->get("Join-Animation", []);
+    if ($enableJoinAnimation) {
+        $chosenAnimation = $joinAnimationConfig["Animation"] ?? "";
+        if ($chosenAnimation === "totem") {
+            $animation = new TotemUseAnimation($player);
+            $animations = $animation->encode();
+
+            foreach ($animations as $packet) {
+                $player->getNetworkSession()->sendDataPacket($packet);
+            }
+        } elseif ($chosenAnimation === "guardian") {
+            $player->getNetworkSession()->sendDataPacket(
+                LevelEventPacket::create(
+                    eventId: LevelEvent::GUARDIAN_CURSE,
+                    eventData: 0,
+                    position: $player->getPosition()
+                )
             );
         }
-
-        $joinAnimationConfig = $this->config->get("Join-Animation");
-        if ($enableJoinAnimation) {
-            $chosenAnimation = $joinAnimationConfig["Animation"];
-            if ($chosenAnimation === "totem") {
-                $animation = new TotemUseAnimation($player);
-                $animations = $animation->encode();
-
-                foreach ($animations as $packet) {
-                    $player->getNetworkSession()->sendDataPacket($packet);
-                }
-            } elseif ($chosenAnimation === "guardian") {
-                $player->getNetworkSession()->sendDataPacket(
-                    LevelEventPacket::create(
-                        eventId: LevelEvent::GUARDIAN_CURSE,
-                        eventData: 0,
-                        position: $player->getPosition()
-                    )
-                );
-            }
-        }
     }
+}
+
 
     public function onPlayerQuit(PlayerQuitEvent $event): void {
         $player = $event->getPlayer();
