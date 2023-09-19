@@ -39,7 +39,7 @@ class EventListener implements Listener {
 
     if ($enableMessages && $customJoinConfig !== "") {
         $joinMessage = str_replace("%player%", $player->getName(), $customJoinConfig);
-        $player->setJoinMessage($joinMessage);
+        $event->setJoinMessage($joinMessage);
     }
 
     $titleConfig = $this->config->get("Title", []);
