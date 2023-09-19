@@ -10,6 +10,7 @@ use pocketmine\network\mcpe\protocol\LevelEventPacket;
 use pocketmine\network\mcpe\protocol\types\LevelEvent;
 use pocketmine\utils\Config;
 use pocketmine\Player;
+use pocketmine\entity\animation\TotemUseAnimation; // Import the TotemUseAnimation class
 
 class EventListener implements Listener {
 
