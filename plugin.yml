@@ -1,6 +1,6 @@
 name: AnimationJoin
 version: 1.0.0
-api: [3.0.0]
+api: [5.0.0]
 author: Terpz710
 main: Terpz710\AnimationJoin\Main
 description: A PocketMine plugin to send custom animations on join.
