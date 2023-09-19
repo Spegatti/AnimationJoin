@@ -1,0 +1,25 @@
+# A Pocketmine-MP plugin thats designed to cover all join/leave core mechanics.
+
+# Enable or disable various features
+Enable:
+  MOTD: true          # Enable the Message of the Day (MOTD)
+  Messages: true     # Enable custom join and leave messages
+  Title: true        # Enable custom titles
+  Join-Animation: true # Enable custom join animations
+
+MOTD: "Welcome to the Server" # Message of the Day (MOTD) displayed when a player joins.
+
+Messages:
+  Join-Message: "Welcome, %player%! Have a great time on the server!"
+  Leave-Message: "Goodbye, %player%! Come back soon!"
+
+Title:
+  Title-Text: "Welcome to the Server" 
+  Subtitle-Text: "Enjoy your stay!"
+  Fade-In: 20
+  Stay: 60
+  Fade-Out: 20
+
+# Animation type ("totem" or "guardian")
+Join-Animation:
+  Animation: "totem"
