@@ -11,6 +11,7 @@ use pocketmine\network\mcpe\protocol\types\LevelEvent;
 use pocketmine\utils\Config;
 use pocketmine\Player;
 use pocketmine\entity\animation\TotemUseAnimation;
+use Terpz710\AnimationJoin\Main;
 
 class EventListener implements Listener {
 
