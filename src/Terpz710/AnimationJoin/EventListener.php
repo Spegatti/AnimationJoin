@@ -45,7 +45,7 @@ class EventListener implements Listener {
 
         $titleConfig = $this->config->get("Title");
         if ($enableTitle) {
-            $player->addTitle(
+            $player->sendTitle(
                 $titleConfig["Title-Text"],
                 $titleConfig["Subtitle-Text"],
                 $titleConfig["Fade-In"],
